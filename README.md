@@ -4,9 +4,9 @@ Este repositório contém todos os artefatos produzidos durante a concepção e 
 
 ## Discentes
 
-Alex Ferreira de Almeida (almeida_alex@discente.ufg.br / alexferreiradealmeida@gmail.com) 
-Anderson Costa Lima (andersonlimac90@gmail.com) 
-Carlos Henrique Souza dos Santos (carlosheenrique.on@gmail.com) 
+- Alex Ferreira de Almeida (almeida_alex@discente.ufg.br / alexferreiradealmeida@gmail.com) 
+- Anderson Costa Lima (andersonlimac90@gmail.com) 
+- Carlos Henrique Souza dos Santos (carlosheenrique.on@gmail.com) 
 
 ## License
 
