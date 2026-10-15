@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Form" targetNamespace="http://bpmn.io/schema/bpmn" exporter="MotorBPMN" exporterVersion="1.0">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_1" name="Concessão de Diárias e Passagens" processRef="proc_diarias_passagens"/>
+  </bpmn:collaboration>
+  <bpmn:process id="proc_diarias_passagens" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_0" name="Proponente / Solicitante">
+        <bpmn:flowNodeRef>start_solicitacao</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>realizar_viagem</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="Chefia Imediata">
+        <bpmn:flowNodeRef>analise_chefia</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>gateway_aprovacao_chefia</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>parecer_desfavoravel</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end_indeferimento</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>encaminhar_setor_viagens</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_2" name="Setor de Viagens / Protocolo">
+        <bpmn:flowNodeRef>calcular_valores_viagem</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>encaminhar_ordenador</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>conferir_documentacao</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end_sucesso</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_3" name="Ordenador de Despesas">
+        <bpmn:flowNodeRef>gateway_aprovacao_ordenador</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>retornar_setor_viagens</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>autorizar_pagamento</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start_solicitacao" name="O Proponente preenche o formulário de solicitação de afastamento, informando o roteiro, justificativa e datas da viagem."/>
+    <bpmn:userTask id="analise_chefia" name="A Chefia Imediata analisa a solicitação do proponente."/>
+    <bpmn:exclusiveGateway id="gateway_aprovacao_chefia" name="O pedido é aprovado?"/>
+    <bpmn:userTask id="parecer_desfavoravel" name="A chefia emite parecer desfavorável, o processo é arquivado e o fluxo é encerrado por indeferimento."/>
+    <bpmn:endEvent id="end_indeferimento" name="Fluxo encerrado por indeferimento."/>
+    <bpmn:userTask id="encaminhar_setor_viagens" name="O processo é encaminhado ao Setor de Viagens."/>
+    <bpmn:userTask id="calcular_valores_viagem" name="O Setor de Viagens calcula os valores de diárias e realiza a cotação/emissão das passagens."/>
+    <bpmn:userTask id="encaminhar_ordenador" name="O processo é encaminhado ao Ordenador de Despesas para autorização do pagamento e empenho."/>
+    <bpmn:exclusiveGateway id="gateway_aprovacao_ordenador" name="O ordenador aprova a despesa?"/>
+    <bpmn:userTask id="retornar_setor_viagens" name="Retorna ao Setor de Viagens para ajustes ou cancelamento."/>
+    <bpmn:userTask id="autorizar_pagamento" name="O pagamento é autorizado e o bilhete/ordem de pagamento é emitido."/>
+    <bpmn:userTask id="realizar_viagem" name="O proponente realiza a viagem e, após o retorno, submete o relatório de viagem e os comprovantes de embarque."/>
+    <bpmn:userTask id="conferir_documentacao" name="O Setor de Viagens confere a documentação comprobatória e o processo é arquivado com sucesso."/>
+    <bpmn:endEvent id="end_sucesso" name="Processo arquivado e concluído com sucesso."/>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start_solicitacao" targetRef="analise_chefia"/>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="analise_chefia" targetRef="gateway_aprovacao_chefia"/>
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="gateway_aprovacao_chefia" targetRef="parecer_desfavoravel" name="Não"/>
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="gateway_aprovacao_chefia" targetRef="encaminhar_setor_viagens" name="Sim"/>
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="parecer_desfavoravel" targetRef="end_indeferimento"/>
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="encaminhar_setor_viagens" targetRef="calcular_valores_viagem"/>
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="calcular_valores_viagem" targetRef="encaminhar_ordenador"/>
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="encaminhar_ordenador" targetRef="gateway_aprovacao_ordenador"/>
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="gateway_aprovacao_ordenador" targetRef="retornar_setor_viagens" name="Não"/>
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="gateway_aprovacao_ordenador" targetRef="autorizar_pagamento" name="Sim"/>
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="retornar_setor_viagens" targetRef="calcular_valores_viagem"/>
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="autorizar_pagamento" targetRef="realizar_viagem"/>
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="realizar_viagem" targetRef="conferir_documentacao"/>
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="conferir_documentacao" targetRef="end_sucesso"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="Participant_1_di" bpmnElement="Participant_1" isHorizontal="true">
+        <dc:Bounds x="120" y="100" width="2000" height="1120"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0_di" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="150" y="100" width="1970" height="280"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1_di" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="150" y="380" width="1970" height="280"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_2_di" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="150" y="660" width="1970" height="280"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_3_di" bpmnElement="Lane_3" isHorizontal="true">
+        <dc:Bounds x="150" y="940" width="1970" height="280"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="start_solicitacao_di" bpmnElement="start_solicitacao">
+        <dc:Bounds x="220" y="202" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="analise_chefia_di" bpmnElement="analise_chefia">
+        <dc:Bounds x="460" y="460" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gateway_aprovacao_chefia_di" bpmnElement="gateway_aprovacao_chefia">
+        <dc:Bounds x="700" y="450" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="parecer_desfavoravel_di" bpmnElement="parecer_desfavoravel">
+        <dc:Bounds x="940" y="460" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_indeferimento_di" bpmnElement="end_indeferimento">
+        <dc:Bounds x="1180" y="482" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="encaminhar_setor_viagens_di" bpmnElement="encaminhar_setor_viagens">
+        <dc:Bounds x="940" y="460" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="calcular_valores_viagem_di" bpmnElement="calcular_valores_viagem">
+        <dc:Bounds x="1180" y="740" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="encaminhar_ordenador_di" bpmnElement="encaminhar_ordenador">
+        <dc:Bounds x="1420" y="740" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gateway_aprovacao_ordenador_di" bpmnElement="gateway_aprovacao_ordenador">
+        <dc:Bounds x="1660" y="1010" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="retornar_setor_viagens_di" bpmnElement="retornar_setor_viagens">
+        <dc:Bounds x="1900" y="1020" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="autorizar_pagamento_di" bpmnElement="autorizar_pagamento">
+        <dc:Bounds x="1900" y="1020" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="realizar_viagem_di" bpmnElement="realizar_viagem">
+        <dc:Bounds x="2140" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="conferir_documentacao_di" bpmnElement="conferir_documentacao">
+        <dc:Bounds x="2380" y="740" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_sucesso_di" bpmnElement="end_sucesso">
+        <dc:Bounds x="2620" y="762" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="256" y="220"/>
+        <di:waypoint x="460" y="500"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="560" y="500"/>
+        <di:waypoint x="700" y="500"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="750" y="500"/>
+        <di:waypoint x="940" y="500"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="750" y="500"/>
+        <di:waypoint x="940" y="500"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="1040" y="500"/>
+        <di:waypoint x="1180" y="500"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="1040" y="500"/>
+        <di:waypoint x="1180" y="780"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="1280" y="780"/>
+        <di:waypoint x="1420" y="780"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1520" y="780"/>
+        <di:waypoint x="1660" y="1060"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1710" y="1060"/>
+        <di:waypoint x="1900" y="1060"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1710" y="1060"/>
+        <di:waypoint x="1900" y="1060"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="2000" y="1060"/>
+        <di:waypoint x="1180" y="780"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="2000" y="1060"/>
+        <di:waypoint x="2140" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="2240" y="220"/>
+        <di:waypoint x="2380" y="780"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="2480" y="780"/>
+        <di:waypoint x="2620" y="780"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

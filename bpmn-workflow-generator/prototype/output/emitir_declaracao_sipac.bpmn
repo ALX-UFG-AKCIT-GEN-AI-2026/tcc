@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Form" targetNamespace="http://bpmn.io/schema/bpmn" exporter="MotorBPMN" exporterVersion="1.0">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_1" name="Emitir declaração no SIPAC" processRef="proc-emitir-declaracao-sipac"/>
+  </bpmn:collaboration>
+  <bpmn:process id="proc-emitir-declaracao-sipac" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_0" name="Bolsista do RU">
+        <bpmn:flowNodeRef>start_acesso_mesa_virtual</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>cadastrar_doc_sipac</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>preencher_dados</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>escrever_doc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>incluir_assinante</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>assinar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>inserir_dados_discente</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>salvar_email_discente</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>direcionar_doc_unidade_dasap</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>download_declaração_bolsista_ru</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>enviar_via_email</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>finalizar_processo</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="DASAP">
+        <bpmn:flowNodeRef>receber_doc_dasap</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start_acesso_mesa_virtual" name="Acessar Mesa virtual"/>
+    <bpmn:userTask id="cadastrar_doc_sipac" name="Cadastrar documento no SIPAC"/>
+    <bpmn:userTask id="preencher_dados" name="Preencher dados"/>
+    <bpmn:userTask id="escrever_doc" name="Escrever documento"/>
+    <bpmn:userTask id="incluir_assinante" name="Incluir assinante"/>
+    <bpmn:userTask id="assinar" name="Assinar"/>
+    <bpmn:userTask id="inserir_dados_discente" name="Inserir dados do interessado (discentes)"/>
+    <bpmn:userTask id="salvar_email_discente" name="Salvar e-mail cadastrado do(a) discente para envio posterior"/>
+    <bpmn:userTask id="direcionar_doc_unidade_dasap" name="Direcionar documento para unidade DASAP"/>
+    <bpmn:userTask id="receber_doc_dasap" name="DASAP recebe documento"/>
+    <bpmn:userTask id="download_declaração_bolsista_ru" name="Bolsista do RU vai fazer download de declaração"/>
+    <bpmn:userTask id="enviar_via_email" name="Realizar envio da declaração via e-mail institucional"/>
+    <bpmn:endEvent id="finalizar_processo" name="Finalizar processo"/>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start_acesso_mesa_virtual" targetRef="cadastrar_doc_sipac"/>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="cadastrar_doc_sipac" targetRef="preencher_dados"/>
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="preencher_dados" targetRef="escrever_doc"/>
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="escrever_doc" targetRef="incluir_assinante"/>
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="incluir_assinante" targetRef="assinar"/>
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="assinar" targetRef="inserir_dados_discente"/>
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="inserir_dados_discente" targetRef="salvar_email_discente"/>
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="salvar_email_discente" targetRef="direcionar_doc_unidade_dasap"/>
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="direcionar_doc_unidade_dasap" targetRef="receber_doc_dasap"/>
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="receber_doc_dasap" targetRef="download_declaração_bolsista_ru"/>
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="download_declaração_bolsista_ru" targetRef="enviar_via_email"/>
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="enviar_via_email" targetRef="finalizar_processo"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="Participant_1_di" bpmnElement="Participant_1" isHorizontal="true">
+        <dc:Bounds x="120" y="100" width="2000" height="560"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0_di" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="150" y="100" width="1970" height="280"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1_di" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="150" y="380" width="1970" height="280"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="start_acesso_mesa_virtual_di" bpmnElement="start_acesso_mesa_virtual">
+        <dc:Bounds x="220" y="202" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="cadastrar_doc_sipac_di" bpmnElement="cadastrar_doc_sipac">
+        <dc:Bounds x="460" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="preencher_dados_di" bpmnElement="preencher_dados">
+        <dc:Bounds x="700" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="escrever_doc_di" bpmnElement="escrever_doc">
+        <dc:Bounds x="940" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="incluir_assinante_di" bpmnElement="incluir_assinante">
+        <dc:Bounds x="1180" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="assinar_di" bpmnElement="assinar">
+        <dc:Bounds x="1420" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="inserir_dados_discente_di" bpmnElement="inserir_dados_discente">
+        <dc:Bounds x="1660" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="salvar_email_discente_di" bpmnElement="salvar_email_discente">
+        <dc:Bounds x="1900" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="direcionar_doc_unidade_dasap_di" bpmnElement="direcionar_doc_unidade_dasap">
+        <dc:Bounds x="2140" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="receber_doc_dasap_di" bpmnElement="receber_doc_dasap">
+        <dc:Bounds x="2380" y="460" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="download_declaração_bolsista_ru_di" bpmnElement="download_declaração_bolsista_ru">
+        <dc:Bounds x="2620" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="enviar_via_email_di" bpmnElement="enviar_via_email">
+        <dc:Bounds x="2860" y="180" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="finalizar_processo_di" bpmnElement="finalizar_processo">
+        <dc:Bounds x="3100" y="202" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="256" y="220"/>
+        <di:waypoint x="460" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="560" y="220"/>
+        <di:waypoint x="700" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="800" y="220"/>
+        <di:waypoint x="940" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="1040" y="220"/>
+        <di:waypoint x="1180" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="1280" y="220"/>
+        <di:waypoint x="1420" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="1520" y="220"/>
+        <di:waypoint x="1660" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="1760" y="220"/>
+        <di:waypoint x="1900" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="2000" y="220"/>
+        <di:waypoint x="2140" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="2240" y="220"/>
+        <di:waypoint x="2380" y="500"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="2480" y="500"/>
+        <di:waypoint x="2620" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="2720" y="220"/>
+        <di:waypoint x="2860" y="220"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="2960" y="220"/>
+        <di:waypoint x="3100" y="220"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
